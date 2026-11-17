@@ -1,5 +1,5 @@
 import type { AnalysisRun, BatchMeta, CoverageCounts, RawRow } from '../types';
-import { SOURCE_SCHEMAS } from './schema';
+import { SOURCE_SCHEMAS, isSupplySource } from './schema';
 import type { Dataset } from './loadDataset';
 import { batchSchool } from '../engine/context';
 
@@ -16,13 +16,14 @@ export interface BatchStat {
   fileHash?: string;
 }
 
-/** 首页按来源批次统计：输入行数、有效行数、重复行数、成功关联数及未知数 */
+/** 首页按来源批次统计：输入行数、有效行数、重复行数、成功关联数及未知数（仅领餐级来源） */
 export function computeBatchStats(dataset: Dataset, run: AnalysisRun): BatchStat[] {
   const rowsByBatch = dataset.rowsByBatch;
   const resolutionByKey = new Map(run.resolutions.map((r) => [`${r.scope}|${r.sourceKey}`, r]));
   const assessmentsBySession = new Map(run.assessments.map((a) => [a.sessionId, a]));
 
-  return dataset.manifest.batches.map((meta): BatchStat => {
+  // 供餐指标来源在「供餐指标」页独立核对（去重/总体核对），不进入本表
+  return dataset.manifest.batches.filter((meta) => !isSupplySource(meta.sourceType)).map((meta): BatchStat => {
     const rows: RawRow[] = rowsByBatch[meta.batchId] ?? [];
     const schema = SOURCE_SCHEMAS[meta.sourceType];
 

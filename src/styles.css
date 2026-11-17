@@ -515,3 +515,51 @@ textarea:focus {
   font-weight: 700;
   color: var(--candidate);
 }
+
+/* ---- 供餐指标与跨校比较 ---- */
+.subcard {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px 14px;
+  background: #fcfdfe;
+}
+.subcard h3 {
+  margin-top: 0;
+}
+
+.interval-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 180px;
+}
+.interval-track {
+  position: relative;
+  flex: 1;
+  height: 10px;
+  border-radius: 5px;
+  background: var(--surface-2);
+  overflow: hidden;
+}
+.interval-fill {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  border-radius: 5px;
+  background: repeating-linear-gradient(45deg, var(--candidate), var(--candidate) 4px, #d9a44a 4px, #d9a44a 8px);
+}
+
+.preview-panel {
+  border: 1px dashed var(--candidate);
+  border-radius: var(--radius);
+  background: var(--candidate-soft);
+  padding: 14px 16px;
+  margin-top: 12px;
+}
+.preview-panel h3 {
+  margin-top: 0;
+}
+
+tr.row-active td {
+  background: var(--primary-soft);
+}

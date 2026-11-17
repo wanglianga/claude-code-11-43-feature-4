@@ -39,11 +39,23 @@ export async function loadTestDataset(): Promise<Dataset> {
   const loadedBatches: LoadedBatch[] = [];
   const rowsByBatch: Record<string, RawRow[]> = {};
   const hashes: Record<string, string> = {};
+  const pendingBatches: LoadedBatch[] = [];
+  const pendingHashes: Record<string, string> = {};
   let dietRows: RawRow[] = [];
 
   for (const meta of manifest.batches) {
     rowsByBatch[meta.batchId] = [];
-    if (meta.status === 'PENDING') continue;
+    if (meta.status === 'PENDING') {
+      try {
+        const raw = text(meta.fileName);
+        pendingHashes[meta.batchId] = await sha256(raw);
+        const { headers, rows } = parseCsv(raw, meta.batchId);
+        pendingBatches.push({ meta, headers, rows, fileHash: pendingHashes[meta.batchId] });
+      } catch {
+        // 文件未上传：保持未到齐
+      }
+      continue;
+    }
     const raw = text(meta.fileName);
     hashes[meta.batchId] = await sha256(raw);
     if (meta.sourceType === 'diet_restrictions') {
@@ -68,7 +80,7 @@ export async function loadTestDataset(): Promise<Dataset> {
     seed_mappings: await sha256(text('seed_mappings.json')),
   };
 
-  return { manifest, standards, seedMapping, loadedBatches, rowsByBatch, dietRows, hashes, metaHashes };
+  return { manifest, standards, seedMapping, loadedBatches, rowsByBatch, dietRows, hashes, metaHashes, pendingBatches, pendingHashes };
 }
 
 export function listSampleFiles(): string[] {

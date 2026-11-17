@@ -23,6 +23,10 @@ function emptyByType(): Record<SourceType, RawRow[]> {
     meal_sessions: [],
     meal_servings: [],
     diet_restrictions: [],
+    window_registry: [],
+    service_log: [],
+    closure_evidence: [],
+    window_usage: [],
   };
 }
 

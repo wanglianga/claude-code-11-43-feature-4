@@ -7,6 +7,9 @@ import { QualityPage } from './pages/QualityPage';
 import { RunsPage } from './pages/RunsPage';
 import { RunDetailPage } from './pages/RunDetailPage';
 import { ComparePage } from './pages/ComparePage';
+import { SupplyPage } from './pages/SupplyPage';
+import { SchoolComparePage } from './pages/SchoolComparePage';
+import { SupplyStaleBanner } from './components/SupplyStaleBanner';
 
 const NAV = [
   { to: '/overview', label: '总览', icon: '📊' },
@@ -15,6 +18,8 @@ const NAV = [
   { to: '/quality', label: '质量检查', icon: '🧪' },
   { to: '/runs', label: '分析运行', icon: '▶️' },
   { to: '/compare', label: '运行对比', icon: '🆚' },
+  { to: '/supply', label: '供餐指标', icon: '🍽️' },
+  { to: '/school-compare', label: '跨校比较', icon: '⚖️' },
 ];
 
 function ConflictBanner() {
@@ -66,6 +71,7 @@ export function AppRoutes() {
       </aside>
       <main className="main">
         <ConflictBanner />
+        <SupplyStaleBanner />
         <Routes>
           <Route path="/" element={<Navigate to="/overview" replace />} />
           <Route path="/overview" element={<OverviewPage />} />
@@ -75,6 +81,8 @@ export function AppRoutes() {
           <Route path="/runs" element={<RunsPage />} />
           <Route path="/runs/:runId" element={<RunDetailPage />} />
           <Route path="/compare" element={<ComparePage />} />
+          <Route path="/supply" element={<SupplyPage />} />
+          <Route path="/school-compare" element={<SchoolComparePage />} />
           <Route path="*" element={<Navigate to="/overview" replace />} />
         </Routes>
       </main>

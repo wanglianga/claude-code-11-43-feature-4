@@ -1,0 +1,11 @@
+usage_id,school_id,service_window,biz_date,meal_type,kitchen_alias,qty,unit,status
+WA-111,A,W2,2026-09-01,dinner,牛奶,3,L,ACTUAL
+WA-112,A,W2,2026-09-01,dinner,高筋粉,2,kg,ACTUAL
+WA-113,A,W2,2026-09-02,dinner,牛奶,2,L,ACTUAL
+WA-114,A,W2,2026-09-02,dinner,东北米,3,kg,ACTUAL
+WA-115,A,W2,2026-09-03,dinner,高筋粉,2,kg,ACTUAL
+WA-116,A,W2,2026-09-03,dinner,鸡蛋,1,kg,ACTUAL
+WA-117,A,W2,2026-09-04,dinner,东北米,4,kg,ACTUAL
+WA-118,A,W2,2026-09-04,dinner,鸡蛋,1,kg,ACTUAL
+WA-119,A,W2,2026-09-05,dinner,东北米,4,kg,ACTUAL
+WA-120,A,W2,2026-09-05,dinner,玉米生粉,0.3,kg,ACTUAL

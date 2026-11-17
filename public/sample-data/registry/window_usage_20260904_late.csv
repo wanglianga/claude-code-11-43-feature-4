@@ -1,0 +1,5 @@
+usage_id,school_id,service_window,biz_date,meal_type,kitchen_alias,qty,unit,status
+WA-101,A,W1,2026-09-04,dinner,牛奶,2,L,ACTUAL
+WA-102,A,W1,2026-09-04,dinner,鸡蛋,1,kg,ACTUAL
+WA-103,A,W1,2026-09-05,dinner,东北米,5,kg,ACTUAL
+WA-104,A,W1,2026-09-05,dinner,花生压榨油,0.3,L,ACTUAL

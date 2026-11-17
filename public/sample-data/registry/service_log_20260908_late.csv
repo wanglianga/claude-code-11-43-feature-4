@@ -1,0 +1,6 @@
+log_id,school_id,service_window,biz_date,meal_type,segment_start,segment_end,servings_count,entry_kind,source_system
+LG-A-0901-W2D,A,W2,2026-09-01,dinner,17:40,18:20,61,ACTUAL,窗口收银系统（补传）
+LG-A-0902-W2D,A,W2,2026-09-02,dinner,17:40,18:20,58,ACTUAL,窗口收银系统（补传）
+LG-A-0903-W2D,A,W2,2026-09-03,dinner,17:40,18:20,62,ACTUAL,窗口收银系统（补传）
+LG-A-0904-W2D,A,W2,2026-09-04,dinner,17:40,18:20,59,ACTUAL,窗口收银系统（补传）
+LG-A-0905-W2D,A,W2,2026-09-05,dinner,17:40,18:20,60,ACTUAL,窗口收银系统（补传）

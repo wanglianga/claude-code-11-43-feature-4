@@ -46,7 +46,43 @@ export const SOURCE_SCHEMAS: Record<SourceType, SourceSchema> = {
     keyFields: ['studentAnonId'],
     expectedFields: ['studentAnonId', 'schoolId', 'avoidAllergens', 'effectiveFrom', 'effectiveTo'],
   },
+  window_registry: {
+    sourceType: 'window_registry',
+    label: '窗口供餐登记',
+    keyFields: ['school_id', 'service_window', 'meal_type', 'period_from'],
+    expectedFields: ['school_id', 'service_window', 'meal_type', 'period_from', 'period_to', 'note'],
+  },
+  service_log: {
+    sourceType: 'service_log',
+    label: '窗口发餐日志',
+    keyFields: ['log_id'],
+    expectedFields: ['log_id', 'school_id', 'service_window', 'biz_date', 'meal_type', 'segment_start', 'segment_end', 'servings_count', 'entry_kind', 'source_system'],
+  },
+  closure_evidence: {
+    sourceType: 'closure_evidence',
+    label: '停业/零供餐依据',
+    keyFields: ['school_id', 'service_window', 'biz_date', 'meal_type'],
+    expectedFields: ['school_id', 'service_window', 'biz_date', 'meal_type', 'closure_type', 'evidence_note', 'approved_by'],
+  },
+  window_usage: {
+    sourceType: 'window_usage',
+    label: '窗口用料台账',
+    keyFields: ['usage_id'],
+    expectedFields: ['usage_id', 'school_id', 'service_window', 'biz_date', 'meal_type', 'kitchen_alias', 'qty', 'unit', 'status'],
+  },
 };
+
+/** 供餐指标来源：由供餐引擎独立核对（去重/总体核对），不进入领餐级质量检查与批次健康度 */
+export const SUPPLY_SOURCE_TYPES: SourceType[] = [
+  'window_registry',
+  'service_log',
+  'closure_evidence',
+  'window_usage',
+];
+
+export function isSupplySource(t: SourceType): boolean {
+  return SUPPLY_SOURCE_TYPES.includes(t);
+}
 
 export const FIELD_STATUS_LABEL: Record<FieldStatus, string> = {
   OK: '正常',

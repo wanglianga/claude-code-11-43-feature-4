@@ -1,0 +1,4 @@
+school_id,service_window,biz_date,meal_type,closure_type,evidence_note,approved_by
+B,W1,2026-09-01,breakfast,CLOSED,早餐窗口设备改造停业（后勤处通知 2026-08-28）,后勤处
+B,W1,2026-09-02,breakfast,CLOSED,早餐窗口设备改造停业（后勤处通知 2026-08-28）,后勤处
+B,W2,2026-09-04,dinner,ZERO_SERVED,晚餐开餐但零发餐（全校外出实践，无学生就餐）,食堂值班长

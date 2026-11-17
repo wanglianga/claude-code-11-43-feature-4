@@ -6,7 +6,7 @@ import type {
   QualityIssueType,
   RawRow,
 } from '../types';
-import { SOURCE_SCHEMAS } from '../lib/schema';
+import { SOURCE_SCHEMAS, isSupplySource } from '../lib/schema';
 import { normalizeUnit } from './rules';
 import { batchSchool, toMinute, type DataContext } from './context';
 
@@ -39,6 +39,9 @@ export function runQualityChecks(ctx: DataContext): QualityIssue[] {
   const ds = ctx.dataset;
 
   for (const batch of ds.loadedBatches) {
+    // 供餐指标来源（窗口登记/发餐日志/停业依据/窗口用料）由供餐引擎独立核对，
+    // 其重复行按“供餐记录去重”处理，不进入领餐级五类质量检查
+    if (isSupplySource(batch.meta.sourceType)) continue;
     const schema = SOURCE_SCHEMAS[batch.meta.sourceType];
 
     // 1. 重复键
@@ -250,6 +253,7 @@ export function runFieldChecks(ctx: DataContext): FieldCheck[] {
   const ds = ctx.dataset;
 
   for (const meta of ds.manifest.batches) {
+    if (isSupplySource(meta.sourceType)) continue; // 供餐来源的字段核对由供餐引擎负责
     const schema = SOURCE_SCHEMAS[meta.sourceType];
     if (meta.status === 'PENDING') {
       schema.expectedFields.forEach((field) => {

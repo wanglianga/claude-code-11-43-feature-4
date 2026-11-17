@@ -18,6 +18,31 @@
     { "batchId": "kit-b-2", "sourceType": "kitchen_usage", "schoolId": "B", "fileName": "schoolB/kitchen_usage_20260908.csv", "dataDate": "2026-09-08", "updatedAt": null, "expectedRows": 6, "status": "PENDING", "notes": "乙校 9/8 厨房批次尚未到齐" },
     { "batchId": "meal-1", "sourceType": "meal_sessions", "schoolId": "*", "fileName": "meal/meal_sessions_20260901.csv", "dataDate": "2026-09-01", "updatedAt": "2026-09-05T21:00:00+08:00", "expectedRows": 14, "status": "ARRIVED", "notes": "餐次日志（窗口与时间）" },
     { "batchId": "meal-2", "sourceType": "meal_servings", "schoolId": "*", "fileName": "meal/meal_servings_20260901.csv", "dataDate": "2026-09-01", "updatedAt": "2026-09-05T21:05:00+08:00", "expectedRows": 24, "status": "ARRIVED", "notes": "学生领餐记录（匿名学号）" },
-    { "batchId": "diet-1", "sourceType": "diet_restrictions", "schoolId": "*", "fileName": "diet/restrictions_20260901.json", "dataDate": "2026-09-01", "updatedAt": "2026-09-01T10:00:00+08:00", "expectedRows": 13, "status": "ARRIVED", "notes": "校医维护的饮食限制（匿名学号）" }
+    { "batchId": "diet-1", "sourceType": "diet_restrictions", "schoolId": "*", "fileName": "diet/restrictions_20260901.json", "dataDate": "2026-09-01", "updatedAt": "2026-09-01T10:00:00+08:00", "expectedRows": 13, "status": "ARRIVED", "notes": "校医维护的饮食限制（匿名学号）" },
+    { "batchId": "reg-1", "sourceType": "window_registry", "schoolId": "*", "fileName": "registry/window_registry_20260901.csv", "dataDate": "2026-09-01", "updatedAt": "2026-09-01T06:00:00+08:00", "expectedRows": 11, "status": "ARRIVED", "notes": "应覆盖窗口及供餐周期登记（含一条重叠调整单，去重后生效）",
+      "declaredScope": [ { "schoolId": "*", "serviceWindow": "*", "mealTypes": "*", "dateFrom": "2026-09-01", "dateTo": "2026-09-05" } ] },
+    { "batchId": "clo-1", "sourceType": "closure_evidence", "schoolId": "*", "fileName": "registry/closures_20260901.csv", "dataDate": "2026-09-01", "updatedAt": "2026-09-05T22:00:00+08:00", "expectedRows": 3, "status": "ARRIVED", "notes": "明确停业或零供餐的依据（乙校早餐停业 2 日、乙校 W2 晚餐 9/4 零供餐）",
+      "declaredScope": [ { "schoolId": "*", "serviceWindow": "*", "mealTypes": "*", "dateFrom": "2026-09-01", "dateTo": "2026-09-05" } ] },
+    { "batchId": "log-1", "sourceType": "service_log", "schoolId": "*", "fileName": "registry/service_log_20260901.csv", "dataDate": "2026-09-01", "updatedAt": "2026-09-05T22:10:00+08:00", "expectedRows": 45, "status": "ARRIVED", "notes": "窗口发餐日志（含重复上报行与计划开餐行；甲校 W2 晚餐声明覆盖但无实际上报）",
+      "declaredScope": [
+        { "schoolId": "A", "serviceWindow": "W1", "mealTypes": "*", "dateFrom": "2026-09-01", "dateTo": "2026-09-05" },
+        { "schoolId": "A", "serviceWindow": "W2", "mealTypes": ["breakfast", "dinner"], "dateFrom": "2026-09-01", "dateTo": "2026-09-05" },
+        { "schoolId": "B", "serviceWindow": "W1", "mealTypes": "*", "dateFrom": "2026-09-01", "dateTo": "2026-09-05" },
+        { "schoolId": "B", "serviceWindow": "W2", "mealTypes": ["dinner"], "dateFrom": "2026-09-01", "dateTo": "2026-09-05" }
+      ] },
+    { "batchId": "wul-1", "sourceType": "window_usage", "schoolId": "*", "fileName": "registry/window_usage_20260901.csv", "dataDate": "2026-09-01", "updatedAt": "2026-09-05T22:20:00+08:00", "expectedRows": 75, "status": "ARRIVED", "notes": "窗口用料台账（声明范围不含甲校 W1 晚餐 9/4-9/5 与甲校 W2 晚餐）",
+      "declaredScope": [
+        { "schoolId": "A", "serviceWindow": "W1", "mealTypes": ["breakfast", "lunch"], "dateFrom": "2026-09-01", "dateTo": "2026-09-05" },
+        { "schoolId": "A", "serviceWindow": "W1", "mealTypes": ["dinner"], "dateFrom": "2026-09-01", "dateTo": "2026-09-03" },
+        { "schoolId": "A", "serviceWindow": "W2", "mealTypes": ["breakfast"], "dateFrom": "2026-09-01", "dateTo": "2026-09-05" },
+        { "schoolId": "B", "serviceWindow": "W1", "mealTypes": "*", "dateFrom": "2026-09-01", "dateTo": "2026-09-05" },
+        { "schoolId": "B", "serviceWindow": "W2", "mealTypes": ["dinner"], "dateFrom": "2026-09-01", "dateTo": "2026-09-05" }
+      ] },
+    { "batchId": "wul-a-2", "sourceType": "window_usage", "schoolId": "A", "fileName": "registry/window_usage_20260904_late.csv", "dataDate": "2026-09-04", "updatedAt": null, "expectedRows": 4, "status": "PENDING", "notes": "补传批次：甲校 W1 晚餐 9/4-9/5 用料（未到齐）",
+      "declaredScope": [ { "schoolId": "A", "serviceWindow": "W1", "mealTypes": ["dinner"], "dateFrom": "2026-09-04", "dateTo": "2026-09-05" } ] },
+    { "batchId": "log-a-2", "sourceType": "service_log", "schoolId": "A", "fileName": "registry/service_log_20260908_late.csv", "dataDate": "2026-09-08", "updatedAt": null, "expectedRows": 5, "status": "PENDING", "notes": "补传批次：甲校 W2 晚餐 9/1-9/5 发餐日志（未到齐）",
+      "declaredScope": [ { "schoolId": "A", "serviceWindow": "W2", "mealTypes": ["dinner"], "dateFrom": "2026-09-01", "dateTo": "2026-09-05" } ] },
+    { "batchId": "wul-a-3", "sourceType": "window_usage", "schoolId": "A", "fileName": "registry/window_usage_20260908_late.csv", "dataDate": "2026-09-08", "updatedAt": null, "expectedRows": 10, "status": "PENDING", "notes": "补传批次：甲校 W2 晚餐 9/1-9/5 用料（未到齐）",
+      "declaredScope": [ { "schoolId": "A", "serviceWindow": "W2", "mealTypes": ["dinner"], "dateFrom": "2026-09-01", "dateTo": "2026-09-05" } ] }
   ]
 }

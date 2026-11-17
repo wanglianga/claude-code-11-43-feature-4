@@ -1,8 +1,8 @@
 import { openDB, type IDBPDatabase } from 'idb';
-import type { AnalysisRun, MappingState } from '../types';
+import type { AnalysisRun, MappingState, SupplyRun } from '../types';
 
 const DB_NAME = 'campus-meal-dq';
-const DB_VERSION = 1;
+const DB_VERSION = 2;
 
 export interface SnapshotRecord {
   id: string;
@@ -15,6 +15,7 @@ interface DBSchema {
   kv: { key: string; value: unknown };
   runs: { key: string; value: AnalysisRun };
   snapshots: { key: string; value: SnapshotRecord };
+  supplyRuns: { key: string; value: SupplyRun };
 }
 
 let dbPromise: Promise<IDBPDatabase<DBSchema>> | null = null;
@@ -31,6 +32,9 @@ function db() {
         }
         if (!database.objectStoreNames.contains('snapshots')) {
           database.createObjectStore('snapshots', { keyPath: 'id' });
+        }
+        if (!database.objectStoreNames.contains('supplyRuns')) {
+          database.createObjectStore('supplyRuns', { keyPath: 'runId' });
         }
       },
     });
@@ -79,14 +83,49 @@ export async function getAllSnapshots(): Promise<SnapshotRecord[]> {
   return recs.sort((a, b) => b.createdAt.localeCompare(a.createdAt));
 }
 
+// ---------- 供餐指标运行 ----------
+
+export async function saveSupplyRun(run: SupplyRun): Promise<void> {
+  await (await db()).put('supplyRuns', run);
+}
+
+export async function getAllSupplyRuns(): Promise<SupplyRun[]> {
+  const runs = await (await db()).getAll('supplyRuns');
+  return runs.sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+}
+
+export async function getSupplyRun(runId: string): Promise<SupplyRun | undefined> {
+  return (await db()).get('supplyRuns', runId);
+}
+
+export async function deleteSupplyRun(runId: string): Promise<void> {
+  await (await db()).delete('supplyRuns', runId);
+}
+
 export async function clearAll(): Promise<void> {
   const database = await db();
-  await Promise.all([database.clear('kv'), database.clear('runs'), database.clear('snapshots')]);
+  await Promise.all([
+    database.clear('kv'),
+    database.clear('runs'),
+    database.clear('snapshots'),
+    database.clear('supplyRuns'),
+  ]);
 }
 
 export const KV_KEYS = {
   mappingState: 'mapping-state',
   lastDataset: 'last-dataset',
+  /** 供餐指标：补传激活状态（含修订号，跨标签页乐观锁） */
+  supplyActivation: 'supply-activation',
+  /** 供餐指标：比较方案（固定参照构成） */
+  comparisonScheme: 'comparison-scheme',
 } as const;
+
+/** 补传激活状态：另一标签页提交补传后修订号变化，本标签页旧结果不得作为新范围结论 */
+export interface SupplyActivationState {
+  activated: string[];
+  revision: number;
+  modifiedAt: string;
+}
 
 export type { MappingState };
